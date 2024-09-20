@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import "./App.css";
 
 const Filter = ({ filter, handleFilter }) => {
   return (
     <div>
-      filter name by <input value={filter} onChange={handleFilter} />
+      <input
+        value={filter}
+        onChange={handleFilter}
+        placeholder="filter name by..."
+      />
     </div>
   );
 };

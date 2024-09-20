@@ -5,20 +5,34 @@ import Persons from "./Persons";
 import personService from "./services/persons";
 import "./App.css";
 
-const Notification = ({ message, feedbackType }) => {
+const Notification = ({ error }) => {
   return (
-    <>{message && <div className={`toast ${feedbackType}`}>{message}</div>}</>
+    <div
+      className={`toast ${error.feedbackType} ${error.show ? "show" : "hide"}`}
+    >
+      {error.message}
+    </div>
   );
 };
 const App = () => {
   const [persons, setPersons] = useState([]);
+  const [error, setError] = useState({
+    message: "",
+    feedbackType: "success",
+    show: false,
+  });
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const [feedbackType, setFeedbackType] = useState("success");
+
   const handleNameChange = (e) => setNewName(e.target.value);
-  const handleNumberChange = (e) => setNewNumber(e.target.value);
+  const handleNumberChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "");
+    const formattedValue = value
+      .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
+      .trim();
+    setNewNumber(formattedValue);
+  };
   const handleFilter = (e) => setFilter(e.target.value);
 
   const addPerson = (e) => {
@@ -41,10 +55,16 @@ const App = () => {
       };
       personService.addNew(personObj).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
-        setFeedback(`${newName} has been successfully added`);
-        setFeedbackType("success");
+        setError({
+          message: `${newName} has been added successfully`,
+          feedbackType: "success",
+          show: true,
+        });
         setTimeout(() => {
-          setFeedback("");
+          setError((prevError) => ({
+            ...prevError,
+            show: false,
+          }));
         }, 3000);
       });
     }
@@ -64,10 +84,16 @@ const App = () => {
       })
       .catch((error) => {
         console.log("encountered error", error);
-        setFeedback(`${newName} does not exist in phonebook`);
-        setFeedbackType("error");
+        setError({
+          message: `${newName} does not exist in contact`,
+          feedbackType: "error",
+          show: true,
+        });
         setTimeout(() => {
-          setFeedback("");
+          setError((prevError) => ({
+            ...prevError,
+            show: false,
+          }));
         }, 3000);
       });
   };
@@ -81,7 +107,7 @@ const App = () => {
   };
   const filteredPersons = persons.filter(
     (person) =>
-      person && person.name.toLowerCase().includes(filter.toLowerCase())
+      person.name && person.name.toLowerCase().includes(filter.toLowerCase())
   );
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -90,20 +116,33 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Phonebook</h2>
-      <Notification message={feedback} feedbackType={feedbackType} />
-      <Filter filter={filter} handleFilter={handleFilter} />
-      <h3>Add New Person</h3>
-      <PersonForm
-        addPerson={addPerson}
-        newName={newName}
-        newNumber={newNumber}
-        handleNameChange={handleNameChange}
-        handleNumberChange={handleNumberChange}
-      />
-      <h3>Numbers</h3>
-      <Persons filteredPersons={filteredPersons} deletePerson={deletePerson} />
+    <div className="homepage">
+      <header>
+        <h2 className="heading">Phonebook</h2>
+
+        <Filter filter={filter} handleFilter={handleFilter} />
+      </header>
+      <section>
+        <div className="add-new-section">
+          <h3 className="heading-2">Add New Contact</h3>
+          <PersonForm
+            addPerson={addPerson}
+            newName={newName}
+            newNumber={newNumber}
+            handleNameChange={handleNameChange}
+            handleNumberChange={handleNumberChange}
+            setNewNumber={setNewNumber}
+          />
+          <Notification error={error} />
+        </div>
+        <div className="contacts-section">
+          <h3 className="heading-2">Contacts</h3>
+          <Persons
+            filteredPersons={filteredPersons}
+            deletePerson={deletePerson}
+          />
+        </div>
+      </section>
     </div>
   );
 };
