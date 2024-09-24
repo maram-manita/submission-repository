@@ -5,18 +5,21 @@ import Persons from "./Persons";
 import personService from "./services/persons";
 import "./App.css";
 
-const Notification = ({ error }) => {
+const Notification = ({ feedback }) => {
   return (
     <div
-      className={`toast ${error.feedbackType} ${error.show ? "show" : "hide"}`}
+      className={`toast ${feedback.feedbackType} ${
+        feedback.show ? "show" : "hide"
+      }`}
     >
-      {error.message}
+      {feedback.message}
     </div>
   );
 };
+
 const App = () => {
   const [persons, setPersons] = useState([]);
-  const [error, setError] = useState({
+  const [feedback, setFeedback] = useState({
     message: "",
     feedbackType: "success",
     show: false,
@@ -25,6 +28,19 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
 
+  const giveFeedback = (message, feedbackType) => {
+    setFeedback({
+      message,
+      feedbackType,
+      show: true,
+    });
+    setTimeout(() => {
+      setFeedback((prevFeedback) => ({
+        ...prevFeedback,
+        show: false,
+      }));
+    }, 3000);
+  };
   const handleNameChange = (e) => setNewName(e.target.value);
   const handleNumberChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -55,17 +71,7 @@ const App = () => {
       };
       personService.addNew(personObj).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
-        setError({
-          message: `${newName} has been added successfully`,
-          feedbackType: "success",
-          show: true,
-        });
-        setTimeout(() => {
-          setError((prevError) => ({
-            ...prevError,
-            show: false,
-          }));
-        }, 3000);
+        giveFeedback(`${newName} has been added successfully`, "success");
       });
     }
     setNewName("");
@@ -81,20 +87,12 @@ const App = () => {
       .updatePerson(id, updatedPerson)
       .then((response) => {
         setPersons(persons.map((per) => (per.id !== id ? per : response)));
+        giveFeedback(`${newName} has been updated successfully`, "success");
       })
+
       .catch((error) => {
         console.log("encountered error", error);
-        setError({
-          message: `${newName} does not exist in contact`,
-          feedbackType: "error",
-          show: true,
-        });
-        setTimeout(() => {
-          setError((prevError) => ({
-            ...prevError,
-            show: false,
-          }));
-        }, 3000);
+        giveFeedback(`${newName} does not exist in contacts`, "error");
       });
   };
   const deletePerson = (id) => {
@@ -102,6 +100,7 @@ const App = () => {
     if (window.confirm(`Are you sure you want to delete ${nameOf}?`)) {
       personService.delPerson(id).then(() => {
         setPersons(persons.filter((per) => per.id !== id));
+        giveFeedback(`${nameOf} has been deleted successfully`, "success");
       });
     }
   };
@@ -117,6 +116,7 @@ const App = () => {
 
   return (
     <div className="homepage">
+      <Notification feedback={feedback} />
       <header>
         <h2 className="heading">Phonebook</h2>
 
@@ -133,7 +133,6 @@ const App = () => {
             handleNumberChange={handleNumberChange}
             setNewNumber={setNewNumber}
           />
-          <Notification error={error} />
         </div>
         <div className="contacts-section">
           <h3 className="heading-2">Contacts</h3>

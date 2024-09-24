@@ -28,9 +28,11 @@
 }
 .toast {
   width: max-content;
-  padding: 12px 16px;
+  padding: 12px 20px;
   border-radius: 8px;
   margin-bottom: 12px;
+  position: absolute;
+  right: 40%;
 }
 .show {
   animation: slideInTop ease-in 0.3s;
@@ -58,6 +60,7 @@
   height: 100vh;
   padding: 18px 0;
   overflow-y: hidden;
+  display: relative;
 }
 
 .heading {
@@ -96,15 +99,15 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  flex: 1;
+  flex: 2;
   width: 50%;
-  padding: 24px 0;
+  padding: 24px 12px;
 }
 .contacts-section {
-  flex: 1;
+  flex: 3;
   width: 50%;
   gap: 16px;
-  padding: 24px;
+  padding: 24px 14px;
 }
 
 .input-frame {
@@ -132,6 +135,10 @@ section {
 }
 .input-form button:hover {
   cursor: pointer;
+}
+.input-form button:disabled {
+  background-color: #a1a9f7;
+  cursor: default;
 }
 .contact {
   display: flex;
@@ -167,6 +174,33 @@ input:invalid ~ .error-msg {
   display: block;
 }
 .all-contacts {
-  max-height: 70%;
-  overflow-y: scroll;
+  height: 60vh;
+  overflow: auto;
+}
+@media (max-width: 768px) {
+  .add-new-section {
+    flex: 1;
+  }
+  .contacts-section {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    flex-direction: column;
+  }
+  .contacts-section {
+    padding: 8px;
+    width: 100%;
+  }
+  .add-new-section {
+    padding: 8px;
+    width: 100%;
+    align-items: stretch;
+    margin-top: 12px;
+  }
+  input {
+    width: 100%;
+  }
 }
