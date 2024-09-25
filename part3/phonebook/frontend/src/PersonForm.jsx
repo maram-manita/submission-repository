@@ -4,7 +4,6 @@ import "./App.css";
 export const PersonForm = (props) => {
   const isValid = () => {
     const regex = /^\d{3}-\d{3}-\d{4}$/;
-    console.log(regex.test(props.newNumber), props.newName);
     return regex.test(props.newNumber) && props.newName.length > 0;
   };
   return (

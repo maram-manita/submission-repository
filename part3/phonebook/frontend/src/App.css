@@ -203,4 +203,10 @@ input:invalid ~ .error-msg {
   input {
     width: 100%;
   }
+  .homepage {
+    height: fit-content;
+  }
+  .toast {
+    right: 10%;
+  }
 }
