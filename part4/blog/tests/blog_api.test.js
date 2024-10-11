@@ -90,6 +90,23 @@ test("missing title or url not accepted", async () => {
   await api.post("/api/blogs").send(newBlog).expect(400)
 })
 
+test("deletion of a note", async () => {
+  const initialResponse = await api.get("/api/blogs")
+  const blogtoDel = initialResponse.body[0]
+  await api.delete(`/api/blogs/${blogtoDel.id}`).expect(204)
+  const response = await api.get("/api/blogs")
+  assert.strictEqual(response.body.length, initialResponse.body.length - 1)
+})
+test("updating note (likes)", async () => {
+  const initialResponse = await api.get("/api/blogs")
+  const blogtoUpd = initialResponse.body[0]
+  const newLikes = blogtoUpd.likes + 1
+  const response = await api
+    .put(`/api/blogs/${blogtoUpd.id}`)
+    .send({ likes: newLikes })
+    .expect(200)
+  assert.strictEqual(response.body.likes, newLikes)
+})
 after(async () => {
   await mongoose.connection.close()
 })
