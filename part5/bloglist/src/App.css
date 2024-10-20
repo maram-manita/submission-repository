@@ -1,0 +1,368 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+:root {
+  --main: #0346f2;
+  --secondary: #f2f5fe;
+
+  --error: #f44336;
+  --error-secondary: #ffebee;
+  --success: #4caf50;
+  --success-secondary: #e8f5e9;
+  --info: #2196f3;
+  --info-secondary: #e3f2fd;
+}
+body {
+  background-color: #f6f7fb;
+}
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideOutTop {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.toast {
+  width: max-content;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  position: fixed;
+  right: 40%;
+  margin-top: 12px;
+}
+
+.show {
+  animation: slideInTop ease-in 0.3s;
+}
+.hide {
+  animation: slideOutTop ease-in 0.3s;
+  animation-fill-mode: forwards;
+  border: none;
+}
+
+.success {
+  background-color: var(--success-secondary);
+  color: var(--success);
+}
+.error {
+  background-color: var(--error-secondary);
+
+  color: var(--error);
+}
+.info {
+  background-color: var(--info-secondary);
+
+  color: var(--info);
+}
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 32px;
+  gap: 12px;
+  background-color: white;
+  border-radius: 16px;
+  width: 600px;
+  transition: 0.3s all ease-in-out;
+}
+.blog-title {
+  font-weight: bold;
+  font-size: 32px;
+  padding-top: 20px;
+  padding-bottom: 4px;
+  text-transform: capitalize;
+}
+.blog-subheading {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.blog-handle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.blog-handle > .author {
+  font-weight: 600;
+}
+.blog-handle > .handle {
+  font-weight: 500;
+  font-size: 12px;
+  color: #8e94a7;
+}
+.blog-footer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  padding: 8px 0px;
+}
+.blog-footer span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.blog-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+.blog-content > p {
+  padding: 12px 0px 8px 0;
+}
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin: 32px 0;
+}
+.grey {
+  color: #8e94a7;
+}
+.hr {
+  width: 100%;
+  background-color: #ececec;
+  height: 1px;
+}
+.hover {
+  cursor: pointer;
+}
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  top: 30px;
+  right: 0px;
+  border-radius: 4px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 150px;
+}
+
+.dropdown-menu > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 6px;
+}
+.title-section {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 12px;
+  margin: 16px 0;
+}
+.title-section > div {
+  font-weight: 500;
+  color: var(--main);
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
+button {
+  background-color: var(--main);
+  font-weight: 600;
+  color: white;
+  border-radius: 8px;
+  padding: 12px 20px;
+  outline: none;
+  border: none;
+  font-size: 16px;
+}
+button:hover {
+  cursor: pointer;
+}
+input {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  border: none;
+}
+textarea {
+  resize: none;
+  font-size: 16px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  border: none;
+  margin-bottom: 8px;
+}
+.blog-form {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 12px;
+}
+.blog-form > input {
+  width: 100%;
+  text-transform: capitalize;
+}
+.blog-form > textarea {
+  width: 100%;
+}
+.form-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--main);
+}
+.blog-form-title {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  align-items: center;
+}
+.blog-form-title > * {
+  transition: 0.3s all ease-in-out;
+  overflow: hidden;
+}
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  padding: 12px 20px;
+}
+.navbar-items {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  gap: 12px;
+}
+.navbar h1 {
+  font-family: "Merriweather", serif;
+  font-size: 40px;
+  font-weight: bold;
+}
+.vr {
+  height: 100%;
+  background-color: #ececec;
+  width: 1px;
+}
+.navbar .user-name {
+  font-weight: 500;
+}
+@media only screen and (max-width: 480px) {
+  .App {
+    width: 100%;
+  }
+  .blog-card {
+    width: 400px;
+  }
+
+  .title-section {
+    width: 100%;
+  }
+  .blog-list {
+    padding: 0 8px;
+  }
+  .toast {
+    top: 8px;
+  }
+}
+
+.input-div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.input-div label {
+  font-size: 14px;
+}
+.input-div input {
+  font-size: 16px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.input-div input::placeholder {
+  color: #c0c0c0;
+}
+#login.blog-card {
+  width: 400px;
+  padding: 40px 32px 50px 32px;
+  gap: 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+#login.blog-card p {
+  font-size: 14px;
+  align-self: center;
+  margin-top: 4px;
+}
+#login.blog-form {
+  gap: 20px;
+}
+#login.blog-form-title {
+  align-self: center;
+  font-size: 28px;
+}
+#login button {
+  align-self: normal;
+  margin-top: 12px;
+}
+.name-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 24px;
+}
+#signup.blog-form {
+  gap: 16px;
+}
+#signup.blog-card {
+  padding: 32px 40px 40px 40px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+#signup button {
+  margin-top: 12px;
+  align-self: stretch;
+}
+.error-label {
+  color: var(--error);
+  font-size: 12px;
+  margin-left: 4px;
+}
+.input-error {
+  border: 1px solid var(--error) !important;
+  background-color: var(--error-secondary);
+}
+.input-div .required::after {
+  content: "*";
+  font-weight: bold;
+  color: #7e7e7e;
+  margin-left: 1px;
+}
