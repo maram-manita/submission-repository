@@ -7,6 +7,8 @@ import blogService from "../services/blogs"
 const Home = ({ user, giveFeedback }) => {
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: "", url: "" })
+  const [dropDownShow, setDropDownShow] = useState(false)
+  const [sortCriteria, setSortCriteria] = useState("Latest")
   const handleCreateBlog = async (event) => {
     event.preventDefault()
     try {
@@ -42,11 +44,21 @@ const Home = ({ user, giveFeedback }) => {
       console.error("Error toggling like:", error)
     }
   }
+  const sortedBlogs = () => {
+    let sorted = [...blogs]
+    if (sortCriteria === "Most Likes") {
+      sorted.sort((a, b) => b.likes.length - a.likes.length)
+    } else if (sortCriteria == "Latest") {
+      sorted.reverse()
+    }
+    return sorted
+  }
   const fetchBlogs = async () => {
     const allBlogs = await blogService.getAll()
     setBlogs(allBlogs)
     console.log(allBlogs)
   }
+  const options = ["Latest", "Most Likes", "Oldest"]
 
   useEffect(() => {
     fetchBlogs()
@@ -64,14 +76,47 @@ const Home = ({ user, giveFeedback }) => {
       )}
       <div className="title-section">
         <h2>All Blogposts</h2>
-        <div>
-          Sort
-          <FaChevronDown className="hover" />
+        <div
+          style={{ position: "relative" }}
+          onMouseEnter={() => {
+            setDropDownShow(true)
+          }}
+          onMouseLeave={() => {
+            setDropDownShow(false)
+          }}
+          onClick={() => {
+            setDropDownShow(!dropDownShow)
+          }}
+        >
+          <div className="dropdown-menu-selector hover">
+            {sortCriteria}
+            <FaChevronDown style={{ marginTop: "2.99px" }} />
+          </div>
+
+          <div
+            className="dropdown-menu"
+            id="sort"
+            style={{ maxHeight: dropDownShow ? "100px" : "0" }}
+          >
+            {options
+              .filter((option) => option !== sortCriteria)
+              .map((option) => (
+                <div
+                  className="dropdown-item"
+                  onClick={() => {
+                    setSortCriteria(option)
+                    setDropDownShow(false)
+                  }}
+                >
+                  <p>{option}</p>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
-      {blogs
+      {sortedBlogs()
         .slice()
-        .reverse()
+
         .map((blog) => (
           <Blog
             key={blog.id}

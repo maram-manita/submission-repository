@@ -1,25 +1,35 @@
 import "../App.css"
 
 import { useState, useEffect, useRef } from "react"
-import {
-  IoEllipsisVertical,
-  IoTrash,
-  IoHeartOutline,
-  IoHeartSharp,
-} from "react-icons/io5"
+import { IoEllipsisVertical, IoTrash } from "react-icons/io5"
+import { GoHeart, GoHeartFill } from "react-icons/go"
 
-const Blog = ({
-  blog,
-  userId,
-  toggleLikes,
-  handleDeleteBlog,
-  giveFeedback,
-}) => {
-  const [visible, setVisible] = useState(false)
+const Blog = (props) => {
+  const { blog, userId, toggleLikes, handleDeleteBlog, giveFeedback } = props
+  const [visible, setVisible] = useState(true)
   const [liked, setLiked] = useState(false)
   const [dropDownShow, setDropDownShow] = useState(false)
   const contentRef = useRef(null)
 
+  const formatText = (text) => {
+    const lines = text
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0)
+    const formattedLines = lines.map((line, index) => {
+      line = line.replace(/<b>(.*?)<\/b>/g, "<strong>$1</strong>")
+
+      line = line.replace(/<i>(.*?)<\/i>/g, "<em>$1</em>")
+
+      const listMatch = line.match(/^(\d+)\.\s+(.*)$/)
+      if (listMatch) {
+        return `<li>${listMatch[2]}</li>`
+      }
+      return `<p>${line}</p>`
+    })
+
+    return formattedLines.join("")
+  }
   const handleToggleLikes = () => {
     if (userId) {
       toggleLikes(blog)
@@ -31,6 +41,7 @@ const Blog = ({
   useEffect(() => {
     setLiked(blog.likes.includes(userId))
   }, [blog.likes, userId])
+
   return (
     <div className="blog-card">
       <div
@@ -63,6 +74,9 @@ const Blog = ({
           <div
             className="dropdown-menu"
             style={{ maxHeight: dropDownShow ? "50px" : "0" }}
+            onMouseLeave={() => {
+              setDropDownShow(false)
+            }}
           >
             <div
               onClick={() => {
@@ -79,24 +93,35 @@ const Blog = ({
       <div
         ref={contentRef}
         style={{
-          maxHeight: visible ? `${contentRef.current.scrollHeight}px` : "0",
+          maxHeight:
+            visible && contentRef.current
+              ? `${contentRef.current.scrollHeight}px`
+              : "0",
         }}
         className="blog-content"
       >
         <div className="hr" />
-        <p>{blog.url}</p>
+        <div
+          className="blog-text"
+          dangerouslySetInnerHTML={{ __html: formatText(blog.url) }}
+        />
       </div>
 
       <div className="hr" />
       <div className="blog-footer">
         {liked ? (
           <span>
-            <IoHeartSharp className="hover" onClick={handleToggleLikes} />
-            Liked
+            <GoHeartFill
+              style={{ color: "#f43662" }}
+              className="hover"
+              onClick={handleToggleLikes}
+            />
+
+            <p style={{ fontWeight: "500", color: "#f43662" }}>Liked</p>
           </span>
         ) : (
           <span>
-            <IoHeartOutline className="hover" onClick={handleToggleLikes} />
+            <GoHeart className="hover" onClick={handleToggleLikes} />
             Like
           </span>
         )}

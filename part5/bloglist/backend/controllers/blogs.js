@@ -1,6 +1,5 @@
 const blogsRouter = require("express").Router()
 const Blog = require("../models/blog")
-const User = require("../models/user")
 const jwt = require("jsonwebtoken")
 
 blogsRouter.get("/", async (request, response) => {
@@ -50,7 +49,7 @@ blogsRouter.delete("/:id", async (request, response, next) => {
   }
   const user = request.user
   if (
-    user.id.toString() !== decodedToken.id.toString() ||
+    user.id.toString() !== decodedToken.id.toString() &&
     user.username !== "admin"
   ) {
     return response.status(403).json({ error: "permission denied" })

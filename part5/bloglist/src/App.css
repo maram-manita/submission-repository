@@ -126,8 +126,11 @@ body {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
 }
-.blog-content > p {
+.blog-text {
   padding: 12px 0px 8px 0;
+}
+.blog-text > p {
+  margin-bottom: 0.5rem;
 }
 .blog-list {
   display: flex;
@@ -332,6 +335,11 @@ textarea {
   align-self: normal;
   margin-top: 12px;
 }
+#login-info.toast {
+  position: inherit;
+  align-self: center;
+  margin: 0;
+}
 .name-wrapper {
   display: flex;
   flex-direction: row;
@@ -365,4 +373,26 @@ textarea {
   font-weight: bold;
   color: #7e7e7e;
   margin-left: 1px;
+}
+.dropdown-menu-selector {
+  padding: 0px 16px;
+
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+#sort.dropdown-menu {
+  top: 40px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+.dropdown-item:hover {
+  background-color: var(--secondary);
+  cursor: pointer;
+}
+.blog-footer svg {
+}
+#heart {
+  color: #f43662;
 }

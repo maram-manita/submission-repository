@@ -29,6 +29,9 @@ const Login = ({ setUser, giveFeedback }) => {
 
   return (
     <div className="blog-list">
+      <div id="login-info" className="toast info">
+        You can log in with username visitor, password password1
+      </div>
       <div id="login" className="blog-card">
         <h2 id="login" className="blog-form-title">
           Welcome Back

@@ -92,7 +92,7 @@ const App = () => {
         </nav>
         <Routes>
           <Route
-            path=""
+            path="/"
             element={<Home user={user} giveFeedback={giveFeedback} />}
           />
           <Route
