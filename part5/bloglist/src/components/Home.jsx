@@ -50,6 +50,8 @@ const Home = ({ user, giveFeedback }) => {
       sorted.sort((a, b) => b.likes.length - a.likes.length)
     } else if (sortCriteria == "Latest") {
       sorted.reverse()
+    } else if (sortCriteria === "Most Comments") {
+      sorted.sort((a, b) => b.comments.length - a.comments.length)
     }
     return sorted
   }
@@ -58,7 +60,7 @@ const Home = ({ user, giveFeedback }) => {
     setBlogs(allBlogs)
     console.log(allBlogs)
   }
-  const options = ["Latest", "Most Likes", "Oldest"]
+  const options = ["Latest", "Most Likes", "Oldest", "Most Comments"]
 
   useEffect(() => {
     fetchBlogs()
@@ -96,7 +98,7 @@ const Home = ({ user, giveFeedback }) => {
           <div
             className="dropdown-menu"
             id="sort"
-            style={{ maxHeight: dropDownShow ? "100px" : "0" }}
+            style={{ maxHeight: dropDownShow ? "200px" : "0" }}
           >
             {options
               .filter((option) => option !== sortCriteria)

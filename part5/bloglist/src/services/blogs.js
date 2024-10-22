@@ -37,7 +37,29 @@ const toggleLike = async (id) => {
   const response = await axios.put(`${baseUrl}/${id}/togglelike`, {}, config)
   return response.data
 }
+const addComment = async (blogId, comment) => {
+  const config = {
+    headers: { Authorization: token },
+  }
 
+  const response = await axios.post(
+    `${baseUrl}/${blogId}/comments`,
+    comment,
+    config
+  )
+  return response.data
+}
+
+const getComments = async (blogId) => {
+  const response = await axios.get(`${baseUrl}/${blogId}/comments`)
+  return response.data
+}
+const deleteComment = async (blogId, commentId) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  await axios.delete(`${baseUrl}/${blogId}/comments/${commentId}`, config)
+}
 export default {
   getAll,
   setToken,
@@ -45,4 +67,7 @@ export default {
   deleteBlog,
   clearToken,
   toggleLike,
+  addComment,
+  getComments,
+  deleteComment,
 }

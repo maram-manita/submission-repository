@@ -19,7 +19,7 @@ const BlogForm = (props) => {
         />
       </div>
       <div
-        className="blog-content"
+        className="hide-overflow"
         style={{
           maxHeight: collapsed ? "0" : "300px",
         }}
