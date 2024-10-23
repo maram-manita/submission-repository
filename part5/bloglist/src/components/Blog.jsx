@@ -141,7 +141,7 @@ const Blog = (props) => {
         }}
         className="hide-overflow"
       >
-        <div className="hr" />
+        <div className="hr"></div>
         <div
           className="blog-text"
           dangerouslySetInnerHTML={{ __html: formatText(blog.url) }}
@@ -193,7 +193,6 @@ const Blog = (props) => {
                 : "0",
           }}
         >
-          <div className="hr" />
           <form className="comment-input" onSubmit={handleAddComment}>
             <input
               value={newComment}

@@ -1,24 +1,25 @@
 import { useState, useEffect } from "react"
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 
 import blogService from "./services/blogs"
 
 import Login from "./components/Login"
 import "./App.css"
 
-import { IoMdExit } from "react-icons/io"
 import Home from "./components/Home"
 import Signup from "./components/Signup"
+import Navbar from "./components/Navbar"
 
 const Notification = ({ feedback }) => {
   return (
-    <div
-      className={`toast ${feedback.feedbackType} ${
-        feedback.show ? "show" : "hide"
+    feedback.show && (
+      <div
+        className={`toast ${feedback.feedbackType} ${!feedback.show && "hide"}
       }`}
-    >
-      {feedback.message}
-    </div>
+      >
+        {feedback.message}
+      </div>
+    )
   )
 }
 
@@ -30,7 +31,7 @@ const App = () => {
     show: false,
   })
 
-  const giveFeedback = (message, feedbackType, duration = 3000) => {
+  const giveFeedback = (message, feedbackType, duration = 1000) => {
     setFeedback({
       message,
       feedbackType,
@@ -63,33 +64,7 @@ const App = () => {
     <Router>
       <div className="App">
         <Notification feedback={feedback} />
-        <nav className="navbar">
-          <Link style={{ textDecoration: "none", color: "black" }} to="/">
-            <h1 style={{ fontSize: "38px" }} className="hover">
-              BlogList
-            </h1>
-          </Link>
-          {user ? (
-            <div className="navbar-items">
-              <p className="user-name">{user.name}</p>
-              <div className="vr"></div>
-              <IoMdExit
-                style={{ fontSize: "1.4rem" }}
-                className="hover"
-                onClick={handleLogout}
-              />
-            </div>
-          ) : (
-            <div className="navbar-items">
-              <Link to="/login">
-                <button className="btn-secondary">Login</button>
-              </Link>
-              <Link to="/signup">
-                <button>Sign Up</button>
-              </Link>
-            </div>
-          )}
-        </nav>
+        <Navbar user={user} handleLogout={handleLogout} />
         <Routes>
           <Route
             path="/"
