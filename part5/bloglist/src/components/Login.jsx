@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import PropTypes from "prop-types"
 import { useNavigate, Link } from "react-router-dom"
 import "../App.css"
 import loginService from "../services/login"
@@ -79,5 +80,8 @@ const Login = ({ setUser, giveFeedback }) => {
     </div>
   )
 }
-
+Login.PropTypes = {
+  setUser: PropTypes.func.isRequired,
+  giveFeedback: PropTypes.func.isRequired,
+}
 export default Login
